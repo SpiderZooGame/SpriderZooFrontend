@@ -2,6 +2,10 @@ import Dashboard from "./views/Dashboard.js";
 import Game from "./views/Game.js";
 import GameView from "./views/GameView.js";
 import Settings from "./views/Settings.js";
+import Login from "./views/Login.js";
+import authService from './services/auth.js';
+
+const auth = new authService();
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 
@@ -24,7 +28,8 @@ const router = async () => {
         { path: "/", view: Dashboard },
         { path: "/game", view: Game },
         { path: "/games/:id", view: GameView },
-        { path: "/settings", view: Settings }
+        { path: "/settings", view: Settings },
+        { path: "/login", view : Login}
     ];
 
     // Test each route for potential match
@@ -43,6 +48,8 @@ const router = async () => {
             result: [location.pathname]
         };
     }
+
+    auth.checkAuthentication();
 
     const view = new match.route.view(getParams(match));
 
