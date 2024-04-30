@@ -15,9 +15,8 @@ export default class extends AbstractView {
     }
 
     async getData() {
-        fetch("http://localhost:3001/test", {
+        fetch("/api/test", {
             method: "GET",
-            mode: "cors",
             headers: {
                 "Content-Type": "application/json"
             }
@@ -25,6 +24,9 @@ export default class extends AbstractView {
             .then(response => response.json())
             .then(data => {
                 document.getElementById("perm").innerHTML = data.message;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
             });
     }
 }
