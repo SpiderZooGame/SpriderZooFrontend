@@ -1,15 +1,12 @@
 const express = require("express");
 const path = require("path");
+const userRoutes = require("./src/api/routes/userRoutes");
 
 const app = express();
 
-// API endpoint example
-app.get("/api/test", (req, res) => {
-    const data = {
-        message: "Hello from the API!"
-    };
-    res.json(data);
-});
+app.use(express.json());
+
+app.use("/api/v1/users", userRoutes)
 
 // Serve static files
 app.use("/static", express.static(path.resolve(__dirname, "src", "static")));
