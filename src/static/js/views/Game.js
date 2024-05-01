@@ -8,10 +8,8 @@ export default class extends AbstractView {
     }
 
     async getData() {
-        console.log("getData");
         fetch("/api/test", {
             method: "GET",
-            mode: "cors",
             headers: {
                 "Content-Type": "application/json"
             }

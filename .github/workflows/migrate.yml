@@ -1,0 +1,25 @@
+name: Flyway Migration
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'db/migrations/**'
+      - '.github/workflows/migrate.yml'
+
+
+jobs:
+  Migrate:
+    name: Run Flyway Migration
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: repo setup
+        uses: actions/checkout@v4
+
+      - run: wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.11.0/flyway-commandline-10.11.0-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-10.11.0/flyway /usr/local/bin
+      
+      - run: flyway -user="${{ secrets.DB_USERNAME }}" -password="${{ secrets.DB_PASSWORD }}" -url="${{ secrets.DB_URL }}" -locations=filesystem:$(pwd)/db/migrations info
+      - run: flyway -user="${{ secrets.DB_USERNAME }}" -password="${{ secrets.DB_PASSWORD }}" -url="${{ secrets.DB_URL }}" -locations=filesystem:$(pwd)/db/migrations migrate
