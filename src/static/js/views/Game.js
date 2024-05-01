@@ -2,16 +2,9 @@ import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView {
     constructor(params) {
+        params.viewName = "Game";
         super(params);
-        this.setTitle("Game");
         this.getData();
-    }
-
-    async getHtml() {
-        return `
-            <h1>Game</h1>
-            <p id="perm">You are viewing the Game Page! c</p>
-        `;
     }
 
     async getData() {
@@ -23,7 +16,10 @@ export default class extends AbstractView {
         })
             .then(response => response.json())
             .then(data => {
-                document.getElementById("perm").innerHTML = data.message;
+                document.getElementById("get")
+                .appendChild(
+                    document.createTextNode(data.message)
+                );
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
