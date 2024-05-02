@@ -2,7 +2,7 @@ name: deploy-to-eb
 
 on:
   push:
-    branches: [ deploy ]
+    branches: [ feat/deploy ]
 
 permissions:
     contents: read
