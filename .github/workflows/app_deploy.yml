@@ -1,0 +1,45 @@
+name: deploy-to-eb
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+    contents: read
+    id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4      
+      
+      - name: Assume the deploy pipeline user role
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          role-to-assume: ${{ secrets.AWS_ASSUME_ROLE }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Copy environment config
+        run: aws s3 cp s3://virtual-spider-zoo/environment.config .ebextensions/
+
+      - name: Create ZIP deployment package
+        run: zip -r node-app.zip ./
+
+      - name: Upload package to S3 bucket
+        run: aws s3 cp node-app.zip s3://virtual-spider-zoo/
+
+      - name: Create new ElasticBeanstalk Application Version
+        run: |
+          aws elasticbeanstalk create-application-version \
+          --application-name virtual-spider-zoo-app \
+          --source-bundle S3Bucket="virtual-spider-zoo",S3Key="node-app.zip" \
+          --version-label "ver-${{ github.sha }}" \
+          --description "commit-sha-${{ github.sha }}"
+
+      - name: Deploy new ElasticBeanstalk Application Version
+        run: |
+          aws elasticbeanstalk update-environment --environment-name virtual-spider-zoo-app-env --version-label "ver-${{ github.sha }}"
