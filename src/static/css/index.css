@@ -1,8 +1,92 @@
+/* CSS RESET */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  * {
+    margin: 0;
+  }
+  body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+  }
+  p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+  }
+
+/* GLOBAL STYLES */
+
 body {
-    --nav-width: 200px;
-    margin: 0 0 0 var(--nav-width);
-    font-family: 'Quicksand', sans-serif;
-    font-size: 18px;
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: 1fr 5fr 1fr;
+    flex-direction: row;
+}
+
+.nav {
+    display: flex;
+    font-family: "Noto Sans", sans-serif;
+    flex-direction: row;
+    text-wrap: nowrap;
+    justify-content: start;
+    align-items: center;
+    background-color: #222222;
+    gap: 3vw;
+    padding: 0 2vw;
+}
+
+.nav__header {
+    flex-shrink: 2;
+    flex-grow: 1;
+    min-width: 0;
+    color: #eeeeee;
+    font-size: x-large;
+    font-weight: 700;
+}
+
+.nav__header::before {
+    content: "🕷️";
+    color: #000;
+    padding-right: 0.5em;
+}
+
+.nav a {
+    color: #eeeeee;
+    font-variation-settings: 'FILL' 01, 'wght' 700, 'GRAD' 0, 'opsz' 40;
+}
+
+.nav .material-symbols-outlined {
+    transition: font-size 0.3s ease; /* Smooth transition for size change */
+}
+
+/* Define a keyframe animation for pulsation */
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.nav .material-symbols-outlined:hover {
+    font-size: 3vw;
+    animation: pulsate 1s infinite;
+}
+
+#app {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 1em;
+    gap: 1em;
+    font-weight: 500;
 }
 
 .error-container { 
@@ -24,33 +108,85 @@ body {
     margin-bottom: 20px; 
 }
 
-.nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: var(--nav-width);
-    height: 100vh;
-    background: #222222;
+.green {
+    background-color: #bdffbd;
 }
 
-.nav__link {
-    display: block;
-    padding: 12px 18px;
-    text-decoration: none;
+.red {
+    background-color: #f89999;
+}
+
+.blue {
+    background-color: #b4b4fa;
+}
+
+/* game */
+
+.panel {
+    display: flex;
+    padding: 1em;
+    gap: 1em;
+}
+
+.info_panel {
+    min-width: 250px;
+    flex-grow: 2;
+    flex-basis: auto;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.game_panel{
+    min-width: 400px;
+    flex-grow: 5;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.badge-panel {
+    min-width: 150px;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game_grid{
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1em;
+}
+
+.game_item {
+    background-color: #eeeeee;
+    min-width: 3rem;
+    min-height: 3rem;
+}
+
+.badge_grid {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 2;
+    justify-content: start;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.badge_item {
+    background-color: #eeeeee;
+    width: 3rem;
+    height: 3rem;
+}
+
+footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    background-color: #222222;
     color: #eeeeee;
-    font-weight: 500;
-}
-
-.nav__link:hover {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-#app {
-    margin: 2em;
-    line-height: 1.5;
-    font-weight: 500;
-}
-
-a {
-    color: #009579;
+    font-size: 1rem;
+    padding: 1em;
 }
