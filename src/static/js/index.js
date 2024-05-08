@@ -12,13 +12,13 @@ const pathToRegex = (path) =>
 const getParams = (match) => {
   const values = match.result.slice(1);
   const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(
-    (result) => result[1],
+    (result) => result[1]
   );
 
   return Object.fromEntries(
     keys.map((key, i) => {
       return [key, values[i]];
-    }),
+    })
   );
 };
 
@@ -44,7 +44,7 @@ const router = async () => {
   });
 
   let match = potentialMatches.find(
-    (potentialMatch) => potentialMatch.result !== null,
+    (potentialMatch) => potentialMatch.result !== null
   );
 
   if (!match) {
@@ -59,6 +59,8 @@ const router = async () => {
   const view = new match.route.view(getParams(match));
 
   document.querySelector("#app").innerHTML = await view.getHtml();
+
+  if (view.onMounted) view.onMounted();
 };
 
 window.addEventListener("popstate", router);
@@ -71,31 +73,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-    router();
+  router();
 });
 
 // Dark mode
 var darkMode = false;
 
-if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-	darkMode = true;
+if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  darkMode = true;
 }
 
-if (localStorage.getItem('theme') === 'dark') {
-	darkMode = true;
-} else if (localStorage.getItem('theme') === 'light') {
-	darkMode = false;
+if (localStorage.getItem("theme") === "dark") {
+  darkMode = true;
+} else if (localStorage.getItem("theme") === "light") {
+  darkMode = false;
 }
 
 if (darkMode) {
-	document.body.classList.toggle('dark');
+  document.body.classList.toggle("dark");
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-
-    document.getElementById('checkbox').addEventListener('click', () => {
-		document.body.classList.toggle('dark');
-    	localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-	});
-
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("checkbox").addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    localStorage.setItem(
+      "theme",
+      document.body.classList.contains("dark") ? "dark" : "light"
+    );
+  });
 });
