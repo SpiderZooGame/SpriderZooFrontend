@@ -12,11 +12,6 @@ app.use("/api/v1/users", userRoutes);
 
 app.use("/static", express.static(path.resolve(__dirname, "src", "static")));
 
-app.get("/views/:viewName", (req, res) => {
-  const viewName = req.params.viewName;
-  res.sendFile(path.resolve(__dirname, "src/static/html", `${viewName}.html`));
-});
-
 app.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "src", "index.html"));
 });
