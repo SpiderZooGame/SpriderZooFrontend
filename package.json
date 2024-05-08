@@ -1,16 +1,33 @@
 {
   "name": "spa",
   "version": "1.0.0",
-  "description": "",
+  "description": "The frontend service for the SpiderZoo web level up.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "node --env-file=.env server.js"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-http-proxy": "^2.0.0",
+    "express-session": "^1.18.0",
+    "https": "^1.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2",
     "pg": "^8.11.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SpiderZooGame/SpriderZooFrontend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SpiderZooGame/SpriderZooFrontend/issues"
+  },
+  "homepage": "https://github.com/SpiderZooGame/SpriderZooFrontend#readme"
 }

@@ -8,21 +8,21 @@ export default class extends AbstractView {
     }
 
     async getData() {
-        fetch("/api/test", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("get")
-                .appendChild(
-                    document.createTextNode(data.message)
-                );
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        // fetch("/api/test", {
+        //     method: "GET",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     }
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         document.getElementById("get")
+        //         .appendChild(
+        //             document.createTextNode(data)
+        //         );
+        //     })
+        //     .catch(error => {
+        //         console.error('Error fetching data:', error);
+        //     });
     }
 }

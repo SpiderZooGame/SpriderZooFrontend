@@ -17,6 +17,7 @@ export default class {
             return html;
         })
         .catch(error => {
+            console.log(error);
             this.errorView();
         });
     }
