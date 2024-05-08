@@ -47,13 +47,17 @@ a {
 }
 
 body {
+  overflow: scroll;
   display: grid;
-  min-height: 100vh;
   font-family: "Noto Sans", sans-serif;
-  grid-template-rows: 1fr 6fr 1fr;
+  grid-template-rows: 5em 6fr;
   flex-direction: row;
   background-color: #ffffff;
   transition: background 0.2s linear;
+}
+
+p {
+  font-size: 0.8em;
 }
 
 body.dark {
@@ -152,6 +156,7 @@ body.dark a {
 
 #app {
   margin: 2em;
+  container-type: inline-size;
 }
 
 .error-container {
@@ -177,21 +182,6 @@ body.dark a {
 .error-container p {
   font-size: 1.5rem;
   margin-bottom: 20px;
-}
-
-#app {
-  container-type: size;
-}
-
-footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 2em;
-  background-color: transparent;
-  font-size: 1rem;
-  padding: 1em;
 }
 
 /* debugging */
@@ -221,7 +211,7 @@ footer {
   display: flex;
   padding: 1em;
   gap: 1em;
-  background-color: rgba(149, 74, 179, 0.25);
+  background-color: rgba(149, 74, 179, 0.2);
   border-radius: 8px;
 }
 
@@ -269,27 +259,4 @@ footer {
 .badge_item {
   min-width: 3em;
   min-height: 3em;
-}
-
-/* Dashboard */
-
-.dashboard_container {
-  display: grid;
-  min-height: 100%;
-  grid-template-rows: 1fr 1fr 2fr;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 1em;
-  grid-template-areas:
-    "info info info"
-    "leaderboard leaderboard leaderboard"
-    "badge badge badge";
-}
-
-@container (min-width: 720px) {
-  .dashboard_container {
-    grid-template-areas:
-      "info leaderboard badge"
-      "info leaderboard badge"
-      "info leaderboard badge";
-  }
 }

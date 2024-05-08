@@ -1,4 +1,25 @@
 <style>
+  .dashboard_container {
+    display: grid;
+    min-height: 100%;
+    grid-template-rows: 1fr 1fr 2fr;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 1em;
+    grid-template-areas:
+      "info info info"
+      "leaderboard leaderboard badge"
+      "x x x";
+  }
+
+  @container (min-width: 720px) {
+    .dashboard_container {
+      grid-template-areas:
+        "info x badge"
+        "info x leaderboard"
+        "info x leaderboard";
+    }
+  }
+
   .info_panel {
     grid-area: info;
     flex-direction: column;
@@ -7,14 +28,15 @@
 
   .info_panel a {
     border-radius: 8px;
+    margin-top: auto;
   }
 
   .info_panel button {
-    padding: 0.5rem 1rem;
+    padding: 0.8rem 1rem;
     background-color: green;
     width: 100%;
     font-weight: 800;
-    color: black;
+    color: white;
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
@@ -26,24 +48,39 @@
   }
 
   .leaderboard {
+    padding: 1rem;
+    border-radius: 8px;
     grid-area: leaderboard;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
   }
 
   .leaderboard ol {
+    padding: 0;
     counter-reset: leaderboard;
   }
 
   .leaderboard li {
     overflow: hidden;
-    max-width: 20vw;
-    display: flex;
-    gap: 1rem;
+    padding: 1em;
     font-weight: 700;
-    align-items: center;
-    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    &&::before {
+      content: counter(leaderboard);
+      counter-increment: leaderboard;
+      margin-right: 1em;
+      font-weight: 700;
+    }
+  }
+
+  .leaderboard small {
+    float: right;
+    font-weight: 400;
+  }
+
+  li:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.3);
   }
 
   .badge-panel {
@@ -57,19 +94,32 @@
     <h3>Instructions</h3>
     <p>
       This is a memory game. Click on the cards to reveal the hidden image.
-      Match two cards to score
+      Match two cards to score.
     </p>
-    <a href="/game" class="nav__link" data-link>
+    <h3>Rules</h3>
+    <p>
+      You have 30 seconds to match all the cards. The game ends when the timer
+      runs out.
+    </p>
+    <h3>Scoring</h3>
+    <p>
+      You score 100 points for every correct match. You lose 50 points for every
+      wrong match.
+    </p>
+    <a href="/game">
       <button>PLAY</button>
     </a>
   </section>
-  <section class="leaderboard">
+  <section class="panel leaderboard">
     <h1>
       <span class="material-symbols-outlined moon">trophy</span>
-      Most active Players
+      Leaderboard
     </h1>
     <ol start="1">
-      <li>player</li>
+      <li>
+        Jerry Wood
+        <small>301</small>
+      </li>
       <li>
         Jerry Wood
         <small>301</small>
