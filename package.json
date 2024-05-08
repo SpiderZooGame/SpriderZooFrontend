@@ -1,17 +1,19 @@
 {
   "name": "spa",
   "version": "1.0.0",
-  "description": "",
+  "description": "The frontend service for the SpiderZoo web level up.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node --env-file=.env server.js"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.5"
   }
 }
