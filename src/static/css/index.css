@@ -199,14 +199,6 @@ body.dark a {
 }
 
 /* game */
-
-.game_container {
-  display: grid;
-  grid-template-rows: 4fr 1fr;
-  grid-template-columns: 1fr 3fr;
-  gap: 1em;
-}
-
 .panel {
   display: flex;
   padding: 1em;
