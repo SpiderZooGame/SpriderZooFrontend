@@ -1,7 +1,94 @@
-<h1>Welcome back, Dom</h1>
-<p>
-  Fugiat voluptate et nisi Lorem cillum anim sit do eiusmod occaecat irure do.
-  Reprehenderit anim fugiat sint exercitation consequat. Sit anim laborum sit
-  amet Lorem adipisicing ullamco duis. Anim in do magna ea pariatur et.
-</p>
-<p><a href="/games" data-link>View recent games</a>.</p>
+<style>
+  .info_panel {
+    grid-area: info;
+    flex-direction: column;
+    justify-content: start;
+  }
+
+  .info_panel a {
+    border-radius: 8px;
+  }
+
+  .info_panel button {
+    padding: 0.5rem 1rem;
+    background-color: green;
+    width: 100%;
+    font-weight: 800;
+    color: black;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+
+  .info_panel button:hover {
+    background-color: #63e832;
+    color: #fff;
+  }
+
+  .leaderboard {
+    grid-area: leaderboard;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .leaderboard ol {
+    counter-reset: leaderboard;
+  }
+
+  .leaderboard li {
+    overflow: hidden;
+    max-width: 20vw;
+    display: flex;
+    gap: 1rem;
+    font-weight: 700;
+    align-items: center;
+    padding: 0.5rem;
+  }
+
+  .badge-panel {
+    grid-area: badge;
+  }
+</style>
+
+<section class="dashboard_container">
+  <section class="panel info_panel">
+    <h2>Info</h2>
+    <h3>Instructions</h3>
+    <p>
+      This is a memory game. Click on the cards to reveal the hidden image.
+      Match two cards to score
+    </p>
+    <a href="/game" class="nav__link" data-link>
+      <button>PLAY</button>
+    </a>
+  </section>
+  <section class="leaderboard">
+    <h1>
+      <span class="material-symbols-outlined moon">trophy</span>
+      Most active Players
+    </h1>
+    <ol start="1">
+      <li>player</li>
+      <li>
+        Jerry Wood
+        <small>301</small>
+      </li>
+      <li>
+        Jerry Wood
+        <small>292</small>
+      </li>
+      <li>
+        Trevor McCormick
+        <small>245</small>
+      </li>
+      <li>
+        Andrew Fox
+        <small>203</small>
+      </li>
+    </ol>
+  </section>
+  <section class="panel badge-panel red">
+    <h2>Badges</h2>
+  </section>
+</section>
