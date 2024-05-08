@@ -1,32 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SpiderZoo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="static/css/index.css" />
-    <link rel="stylesheet" href="static/css/game.css" />
   </head>
   <body>
     <nav class="nav">
       <h2 class="nav__header">
         <a href="/" data-link>SpiderZoo</a>
       </h2>
+      <input type="checkbox" class="checkbox" id="checkbox" />
+      <label for="checkbox" class="checkbox-label">
+        <span class="material-symbols-outlined moon">dark_mode</span>
+        <span class="material-symbols-outlined sun">light_mode</span>
+        <span class="ball"></span>
+      </label>
       <a href="/" class="nav__link" data-link>
-        <span class="material-symbols-outlined">home</span>
+        <span class="material-symbols-outlined link">home</span>
       </a>
       <a href="/settings" class="nav__link" data-link>
-        <span class="material-symbols-outlined">settings</span>
+        <span class="material-symbols-outlined link">settings</span>
       </a>
       <a href="/oauth/login" class="nav__link dropdown" >
         <span class="material-symbols-outlined">person</span>
@@ -36,15 +41,6 @@
       </a>
     </nav>
     <main id="app"></main>
-    <footer>
-      <p>
-        &copy;
-        <script>
-          document.write(new Date().getFullYear());
-        </script>
-        SpiderZoo. All rights reserved.
-      </p>
-    </footer>
   </body>
 </html>
 <script type="module" src="/static/js/index.js"></script>

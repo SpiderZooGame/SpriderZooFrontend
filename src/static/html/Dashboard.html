@@ -1,7 +1,144 @@
-<h1>Welcome back, Dom</h1>
-<p>
-  Fugiat voluptate et nisi Lorem cillum anim sit do eiusmod occaecat irure do.
-  Reprehenderit anim fugiat sint exercitation consequat. Sit anim laborum sit
-  amet Lorem adipisicing ullamco duis. Anim in do magna ea pariatur et.
-</p>
-<p><a href="/games" data-link>View recent games</a>.</p>
+<style>
+  .dashboard_container {
+    display: grid;
+    min-height: 100%;
+    grid-template-rows: 1fr 1fr 2fr;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 1em;
+    grid-template-areas:
+      "info info info"
+      "leaderboard leaderboard badge"
+      "x x x";
+  }
+
+  @container (min-width: 720px) {
+    .dashboard_container {
+      grid-template-areas:
+        "info x badge"
+        "info x leaderboard"
+        "info x leaderboard";
+    }
+  }
+
+  .info_panel {
+    grid-area: info;
+    flex-direction: column;
+    justify-content: start;
+  }
+
+  .info_panel a {
+    border-radius: 8px;
+    margin-top: auto;
+  }
+
+  .info_panel button {
+    padding: 0.8rem 1rem;
+    background-color: green;
+    width: 100%;
+    font-weight: 800;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+
+  .info_panel button:hover {
+    background-color: #63e832;
+    color: #fff;
+  }
+
+  .leaderboard {
+    padding: 1rem;
+    border-radius: 8px;
+    grid-area: leaderboard;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .leaderboard ol {
+    padding: 0;
+    counter-reset: leaderboard;
+  }
+
+  .leaderboard li {
+    overflow: hidden;
+    padding: 1em;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.1);
+    &&::before {
+      content: counter(leaderboard);
+      counter-increment: leaderboard;
+      margin-right: 1em;
+      font-weight: 700;
+    }
+  }
+
+  .leaderboard small {
+    float: right;
+    font-weight: 400;
+  }
+
+  li:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .badge-panel {
+    grid-area: badge;
+  }
+</style>
+
+<section class="dashboard_container">
+  <section class="panel info_panel">
+    <h2>Info</h2>
+    <h3>Instructions</h3>
+    <p>
+      This is a memory game. Click on the cards to reveal the hidden image.
+      Match two cards to score.
+    </p>
+    <h3>Rules</h3>
+    <p>
+      You have 30 seconds to match all the cards. The game ends when the timer
+      runs out.
+    </p>
+    <h3>Scoring</h3>
+    <p>
+      You score 100 points for every correct match. You lose 50 points for every
+      wrong match.
+    </p>
+    <a href="/game">
+      <button>PLAY</button>
+    </a>
+  </section>
+  <section class="panel leaderboard">
+    <h1>
+      <span class="material-symbols-outlined moon">trophy</span>
+      Leaderboard
+    </h1>
+    <ol start="1">
+      <li>
+        Jerry Wood
+        <small>301</small>
+      </li>
+      <li>
+        Jerry Wood
+        <small>301</small>
+      </li>
+      <li>
+        Jerry Wood
+        <small>292</small>
+      </li>
+      <li>
+        Trevor McCormick
+        <small>245</small>
+      </li>
+      <li>
+        Andrew Fox
+        <small>203</small>
+      </li>
+    </ol>
+  </section>
+  <section class="panel badge-panel red">
+    <h2>Badges</h2>
+  </section>
+</section>
