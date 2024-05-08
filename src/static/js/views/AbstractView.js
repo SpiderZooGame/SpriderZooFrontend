@@ -1,28 +1,28 @@
 export default class {
-    constructor(params) {
-        this.params = params;
-        document.title = `SpiderZoo - ${params.viewName}`;
-    }
+  constructor(params) {
+    this.params = params;
+    document.title = `SpiderZoo - ${params.viewName}`;
+  }
 
-    async getHtml() {
-        console.log("getHtml");
-        return fetch(`/views/${this.params.viewName}`)
-        .then(response => {
-            if (!response.ok) {
-                return this.errorView();
-            }
-            return response.text();
-        })
-        .then(html => {
-            return html;
-        })
-        .catch(error => {
-            this.errorView();
-        });
-    }
+  async getHtml() {
+    console.log("getHtml");
+    return fetch(`/views/${this.params.viewName}`)
+      .then((response) => {
+        if (!response.ok) {
+          return this.errorView();
+        }
+        return response.text();
+      })
+      .then((html) => {
+        return html;
+      })
+      .catch((error) => {
+        this.errorView();
+      });
+  }
 
-    errorView() {
-        return `
+  errorView() {
+    return `
             <div class="error-container"> 
                 <h1> 404 </h1> 
                 <p> 
@@ -34,5 +34,5 @@ export default class {
                 </a> 
             </div> 
         `;
-    }
+  }
 }
