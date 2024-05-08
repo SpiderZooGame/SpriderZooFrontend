@@ -5,7 +5,7 @@ export default class {
     }
 
     async getHtml() {
-        console.log("getHtml");
+        // console.log("getHtml");
         return fetch(`/views/${this.params.viewName}`)
         .then(response => {
             if (!response.ok) {

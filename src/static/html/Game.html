@@ -1,31 +1,175 @@
 <style>
+    :root {
+        --perspective: 62.5rem;
+    }
+
+    .game_grid {
+        display: grid;
+        width: 30cqw;
+        height: 30cqh;
+        grid-template-columns: repeat(var(--grid-cols), 1fr);
+        grid-template-rows: repeat(var(--grid-rows), 1fr);
+        gap: 1cqw;
+        place-items: center;
+        place-content: center;
+    }
+
+    .tile {
+        place-self: stretch;
+        aspect-ratio: 1;
+        width: auto;
+        height: auto;
+        color: #ffffff;
+        display: grid;
+        grid-template: "container";
+    }
+
+    .tile > * {
+        grid-area: 1 / 1;
+    }
+
+    .input_section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .clicked {
+        background: #32de84;
+    }
+
+    .hidden {
+        visibility: hidden;
+    }
+
+    .none {
+        display: none;
+    }
+
+    .tile .front {
+        backface-visibility: hidden;
+        transform: perspective(var(--perspective)) rotateY(0deg);
+        transition: 1s;
+        background: #eb4d4b;
+        width: 100%;
+        height: 100%;
+    }
     
+
+    .tile .back {
+        backface-visibility: hidden;
+        transform: perspective(var(--perspective)) rotateY(-180deg);
+        transition: 1s;
+        background: #32de84;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .tile:hover .front {
+        transform: perspective(var(--perspective)) rotateY(180deg);
+    }
+
+    .tile:hover .back {
+        transform: perspective(var(--perspective)) rotateY(0deg);
+    }
+
+    .play_btn {
+        display: grid;
+        grid-template: "container";
+    }
+
+    .play_btn > * {
+        grid-area: 1 / 1;
+    }
+
+    .play_background_pulse_container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+
+    .play_background_pulse {
+        content: "";
+        z-index: 0;
+        width: 80px;
+        height: 80px;
+        background: #ba1f24;
+        border-radius: 50%;
+        animation: pulse-border 1500ms ease-out infinite;
+        grid-area: 2 / 2 / 2 / 2;
+    }
+
+    .play_btn_container {
+        display: grid;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .play_btn_container > * {
+        grid-area: 1 / 1;
+    }
+
+    .play_background {
+        content: "";
+        z-index: 1;
+        width: 80px;
+        height: 80px;
+        background: #fa183d;
+        border-radius: 50%;
+        transition: all 200ms;
+    }
+
+    .play_btn_arrow {
+        z-index: 3;
+        width: 0;
+        height: 0;
+        border-left: 32px solid #fff;
+        border-top: 22px solid transparent;
+        border-bottom: 22px solid transparent;
+        place-self: center;
+    }
+
+    @keyframes pulse-border {
+        0% {
+            transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1.5);
+            opacity: 0;
+        }
+    }
 </style>
 
-<section class="panel info_panel green">
-    <H2>Info</H2>
-</section>
-<section class="panel game_panel blue">
-    <H2>SpiderZoo</H2>
-    <div class="game_grid">
-        <div class="game_item" id="item-1">
-        </div>
-        <div class="game_item" id="item-2"></div>
-        <div class="game_item" id="item-3"></div>
-        <div class="game_item" id="item-4"></div>
-        <div class="game_item" id="item-5"></div>
-        <div class="game_item" id="item-6"></div>
-        <div class="game_item" id="item-7"></div>
-        <div class="game_item" id="item-8"></div>
-        <div class="game_item" id="item-9"></div>
-        <div class="game_item" id="item-10"></div>
-        <div class="game_item" id="item-11"></div>
-        <div class="game_item" id="item-12"></div>
+<section class="main_panel">
+    <aside id="info" class="info_panel green">
+        <H2>Info</H2>
+    </aside>
+    <section id="game" class="game_panel blue">
+        <section id="game_container">
+            <section class="game_stats none">
+                
+            </section>
+        </section>
 
-    </div>
+        <!-- <section id="game_grid"></section> -->
 
+        <a id="play" class="play_btn" href="#">
+            <div class="play_background_pulse_container">
+                <span class="play_background_pulse"></span>
+            </div>
+            <div class="play_btn_container">
+                <span class="play_background"></span>
+                <span class="play_btn_arrow"></span>
+            </div>
+        </a>
+
+    </section>
 </section>
-<section class="panel badge-panel red">
+
+<aside id="badges" class="badge-panel red">
     <H2>Badges</H2>
     <div class="badge_grid">
         <div class="badge_item"></div>
@@ -33,4 +177,4 @@
         <div class="badge_item"></div>
         <div class="badge_item"></div>
     </div>
-</section>
+</aside>
