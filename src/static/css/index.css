@@ -46,6 +46,25 @@ a {
   }
 }
 
+.loader {
+  align-self: center;
+  border: 6px solid #f3f3f3b4; /* Light grey */
+  border-top: 6px solid #a0a0a0b6; /* Blue */
+  border-radius: 50%;
+  width: 3em;
+  height: 3em;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 body {
   overflow: scroll;
   display: grid;
@@ -182,6 +201,10 @@ body.dark a {
 .error-container p {
   font-size: 1.5rem;
   margin-bottom: 20px;
+}
+
+.none {
+  display: none;
 }
 
 /* debugging */

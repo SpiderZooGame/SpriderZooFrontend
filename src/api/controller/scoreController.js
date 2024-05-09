@@ -3,7 +3,7 @@ const queries = require("../queries/scoreQueries");
 const utils = require("../utils/badge_logic");
 
 const getLeaderboard = (req, res) => {
-  const { limit } = req.body;
+  const limit = 10;
 
   if (limit) {
     pool.query(queries.getLeaderboardWithLimit, [limit], (error, result) => {
@@ -11,15 +11,9 @@ const getLeaderboard = (req, res) => {
         res.status(500).json({ status: 500, message: "Internal server error" });
 
       res.status(200).json(result.rows);
+      return;
     });
   }
-
-  pool.query(queries.getLeaderboard, (error, result) => {
-    if (error)
-      res.status(500).json({ status: 500, message: "Internal server error" });
-
-    res.status(200).json(result.rows);
-  });
 };
 
 const addScore = (req, res) => {
