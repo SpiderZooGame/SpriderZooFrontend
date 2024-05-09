@@ -334,5 +334,9 @@ export default class Game extends AbstractView {
   onMounted() {
     this.gameContainer = document.querySelector("#game_container");
     this.startGame();
+
+    document.querySelector("#round").textContent = `Round ${this.round}`;
+    document.querySelector("#timer").textContent = this.castToTimer(DURATION);
+    document.querySelector("#score").textContent = INITIAL_SCORE;
   }
 }
