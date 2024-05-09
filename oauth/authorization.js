@@ -38,6 +38,29 @@ const apicall = function (url, headers = {}) {
     return userInfoResponse;
   
   }
+
+  const auth = async (req, res, next) => {
+    if (!req.headers["authorization"]) {
+      res.sendStatus(401);
+    } else {
+      const token = req.headers["authorization"].split(" ")[1];
+      if (!token) return res.sendStatus(401);
+  
+      try {
+  
+        const githubToken = getTokenData(token);
+        const githubUser = await githubValidateUser(githubToken.token);
+  
+        if(githubUser){
+          next();
+        }
+  
+      } catch (error) {
+        res.sendStatus(401);
+      }
+  
+    }
+  };
   
   const generateSignedToken = (githubtoken) => {
     return jwt.sign(githubtoken, process.env.ACCESS_TOKEN_SECRET);
@@ -51,5 +74,6 @@ const apicall = function (url, headers = {}) {
     getTokenData,
     generateSignedToken,
     githubValidateUser,
-    apicall
+    apicall,
+    auth
   }
