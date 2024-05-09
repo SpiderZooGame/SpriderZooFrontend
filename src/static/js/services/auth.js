@@ -3,14 +3,18 @@ export default class AuthService {
     this.isAuthenticated = false;
     this.isAuthenticated = true;
 
-    let link = document.getElementById("logout");
+    this.toggleIcons();
+
+    let link = document.getElementById("logout_icon");
     if (link) {
-      document.getElementById("logout").addEventListener("click", (e) => {
+      document.getElementById("logout_icon").addEventListener("click", (e) => {
         e.preventDefault();
         let sessiontoken = localStorage.getItem("token");
         if (sessiontoken) {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
+          localStorage.removeItem("usedauthcode");
+          this.userLoggedOut();
           window.location.href = "/";
         }
       });
@@ -20,23 +24,60 @@ export default class AuthService {
 
     const code = params.get("code");
 
-    if (code) {
+    let usedauthcode = localStorage.getItem("usedauthcode");
+
+    if (code && !usedauthcode) {
+      localStorage.setItem("usedauthcode", code);
+
       fetch("/user/getToken/?code=" + code)
         .then((res) => res.json())
         .then((res) => {
           localStorage.setItem("token", res.token);
-          if (res.token != localStorage.getItem("token")) {
-            fetch("/user/getinfo/", {
-              headers: {
-                Authorization: "Bearer " + res.token,
-              },
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                localStorage.setItem("user", res.data.user);
-              });
-          }
+
+          fetch("/user/getinfo/", {
+            headers: {
+              Authorization: "Bearer " + res.token,
+            },
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              this.userLoggedIn();
+              localStorage.setItem("user", res.data.user);
+            });
         });
+    }
+  }
+
+  userLoggedIn() {
+    localStorage.setItem("showicon", "true");
+    this.toggleIcons();
+  }
+
+  userLoggedOut() {
+    localStorage.setItem("showicon", "false");
+    this.toggleIcons();
+  }
+
+  toggleIcons() {
+    let personIcon = document.getElementById("person_icon");
+    let logoutIcon = document.getElementById("logout_icon");
+
+    if (personIcon) {
+      let showIcon = localStorage.getItem("showicon");
+      if (showIcon === "true") {
+        personIcon.style.display = "none";
+      } else {
+        personIcon.style.display = "block";
+      }
+    }
+
+    if (logoutIcon) {
+      let showIcon = localStorage.getItem("showicon");
+      if (showIcon === "true") {
+        logoutIcon.style.display = "block";
+      } else {
+        logoutIcon.style.display = "none";
+      }
     }
   }
 

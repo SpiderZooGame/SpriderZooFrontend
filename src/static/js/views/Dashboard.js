@@ -29,7 +29,6 @@ export default class extends AbstractView {
       spinner.classList.add("none");
 
       data.map((element) => {
-        console.log(element);
         let img = document.createElement("img");
         img.classList.add("badge-item");
         img.src = element.badge_url;
