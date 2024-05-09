@@ -80,10 +80,6 @@ p {
   font-size: 0.8em;
 }
 
-.none {
-  display: none;
-}
-
 body.dark {
   background-color: #292c35;
   color: white;
