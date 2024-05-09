@@ -4,10 +4,10 @@ INSERT INTO players (player_id, username, email) VALUES
     (103, 'Charlie', 'CharlieDunn@gmail.com');
 
 INSERT INTO badges (badge_id, badge_name, badge_url) VALUES 
-    (201, 'Black Widow', '/static/img/BlackWidowBadge.png'),
-    (202, 'Brown Recluse', '/static/img/BrownRecluseBadge.png'),
-    (203, 'Cellar', '/static/img/CellarBadge.png'),
-    (204, 'WolfBadge', '/static/img/WolfBadge.png');
+    (1, 'Black Widow', '/static/img/BlackWidowBadge.png'),
+    (2, 'Brown Recluse', '/static/img/BrownRecluseBadge.png'),
+    (3, 'Cellar', '/static/img/CellarBadge.png'),
+    (4, 'WolfBadge', '/static/img/WolfBadge.png');
 
 INSERT INTO playerbadges (date_awarded, player_id, badge_id) VALUES 
     ('2024-04-01', 101, 201),
