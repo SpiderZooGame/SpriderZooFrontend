@@ -10,12 +10,12 @@ INSERT INTO badges (badge_id, badge_name, badge_url) VALUES
     (4, 'WolfBadge', '/static/img/WolfBadge.png');
 
 INSERT INTO playerbadges (date_awarded, player_id, badge_id) VALUES 
-    ('2024-04-01', 101, 201),
-    ('2024-04-05', 101, 202),
-    ('2024-04-10', 103, 201),
-    ('2024-04-10', 103, 202),
-    ('2024-04-10', 103, 203),
-    ('2024-04-10', 103, 204);
+    ('2024-04-01', 101, 1),
+    ('2024-04-05', 101, 2),
+    ('2024-04-10', 103, 1),
+    ('2024-04-10', 103, 2),
+    ('2024-04-10', 103, 3),
+    ('2024-04-10', 103, 4);
 
 INSERT INTO scores (score_id, score, score_date, player_id) VALUES
     (301, 100, '2024-04-01', 101),
