@@ -2,9 +2,7 @@ const pool = require("../../../database-connection");
 const queries = require("../queries/badgeQueries");
 
 const getPlayerBadges = (req, res) => {
-  let player_id;
-  // get player_id
-  // cast to int
+  let player_id = 103;
 
   pool.query(queries.getPlayerBadges, [player_id], (error, results) => {
     if (error)

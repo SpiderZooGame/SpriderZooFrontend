@@ -25,15 +25,17 @@ export default class AuthService {
         .then((res) => res.json())
         .then((res) => {
           localStorage.setItem("token", res.token);
-          fetch("/user/getinfo/", {
-            headers: {
-              Authorization: "Bearer " + res.token,
-            },
-          })
-            .then((res) => res.json())
-            .then((res) => {
-              localStorage.setItem("user", res.data.user);
-            });
+          if (res.token != localStorage.getItem("token")) {
+            fetch("/user/getinfo/", {
+              headers: {
+                Authorization: "Bearer " + res.token,
+              },
+            })
+              .then((res) => res.json())
+              .then((res) => {
+                localStorage.setItem("user", res.data.user);
+              });
+          }
         });
     }
   }

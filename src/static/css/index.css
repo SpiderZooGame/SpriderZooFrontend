@@ -48,8 +48,9 @@ a {
 
 .loader {
   align-self: center;
-  border: 6px solid #f3f3f3b4; /* Light grey */
-  border-top: 6px solid #a0a0a0b6; /* Blue */
+  justify-self: center;
+  border: 6px solid #f3f3f3b4;
+  border-top: 6px solid #a0a0a0b6;
   border-radius: 50%;
   width: 3em;
   height: 3em;
