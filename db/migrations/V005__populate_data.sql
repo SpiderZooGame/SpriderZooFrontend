@@ -7,7 +7,7 @@ INSERT INTO badges (badge_id, badge_name, badge_url) VALUES
     (201, 'Black Widow', '/static/img/BlackWidowBadge.png'),
     (202, 'Brown Recluse', '/static/img/BrownRecluseBadge.png'),
     (203, 'Cellar', '/static/img/CellarBadge.png'),
-    (203, 'WolfBadge', '/static/img/WolfBadge.png');
+    (204, 'WolfBadge', '/static/img/WolfBadge.png');
 
 INSERT INTO playerbadges (date_awarded, player_id, badge_id) VALUES 
     ('2024-04-01', 101, 201),
