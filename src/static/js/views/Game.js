@@ -301,7 +301,17 @@ export default class Game extends AbstractView {
 
   startGame() {
     document.addEventListener("game-over", (e) => {
-      // send results to the backend
+      const token = localStorage.getItem("token");
+
+      fetch("/api/v1/scores", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          score: this.score,
+        }),
+      });
 
       document.dispatchEvent(this.stopTimer);
 
