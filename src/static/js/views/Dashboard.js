@@ -9,15 +9,73 @@ export default class extends AbstractView {
   async onMounted() {
     this.populateLeaderboard();
     this.populateBadges();
+    this.populateResults();
+  }
+
+  async populateResults() {
+    const results = document.querySelector("#result-data");
+    const spinner = document.getElementById("result-spinner");
+
+    try {
+      const response = await fetch("/api/v1/scores");
+      if (!response.ok) {
+        throw new Error("Failed to fetch results data");
+      }
+      const data = await response.json();
+
+      if (data.length === 0) {
+        let p = document.createElement("p");
+        p.innerText =
+          "Ohhh no! You don't have any badges yet! Perhaps you should play the game to earn some!";
+        badges.appendChild(p);
+      }
+
+      spinner.classList.add("none");
+
+      const svgTemplate = document.querySelector("#svgTemplate");
+      const svg = svgTemplate.content.cloneNode(true);
+      const svgElement = svg.querySelector("svg");
+      svgElement.querySelector("path").setAttribute("fill", value);
+      svgElement.querySelector("path").setAttribute("stroke", "#000000");
+      svgElement.querySelector("path").setAttribute("stroke-width", "2%");
+
+      results.appendChild(svg);
+
+      data.forEach((element) => {
+        let li = document.createElement("li");
+        li.innerText = element.high_score;
+
+        let small = document.createElement("small");
+        small.innerText = element.created_at;
+
+        li.appendChild(small);
+        results.appendChild(li);
+      });
+    } catch (error) {
+      console.error("Error fetching results data:", error);
+    }
   }
 
   async populateBadges() {
     const badges = document.querySelector("#badge-list");
     const spinner = document.getElementById("badge-spinner");
     try {
-      const response = await fetch("/api/v1/playerbadges");
+      const response = await fetch("/api/v1/badges/playerbadges");
+      if (response.status === 401) {
+        let p = document.createElement("p");
+        p.innerText =
+          "Ohhh no! You need to be logged in to view your badges! Please log in and try again.";
+        badges.appendChild(p);
+        spinner.classList.add("none");
+        return;
+      }
       if (!response.ok) {
-        throw new Error("Failed to fetch badges data");
+        let p = document.createElement("p");
+        p.innerText =
+          "Ohhh no! Something went wrong while fetching your badges! Please try again later.";
+        badges.appendChild(p);
+        spinner.classList.add("none");
+        return;
       }
       const data = await response.json();
       if (data.length === 0) {
