@@ -2,7 +2,7 @@
   .dashboard_container {
     display: grid;
     min-height: 100%;
-    grid-template-rows: 1fr 1fr 2fr;
+    grid-template-rows: 1fr 1fr 1fr;
     grid-template-columns: 1fr 2fr 1fr;
     gap: 1em;
     grid-template-areas:
@@ -14,9 +14,9 @@
   @container (min-width: 720px) {
     .dashboard_container {
       grid-template-areas:
-        "info x badge"
-        "info x leaderboard"
-        "info x leaderboard";
+        "info result badge"
+        "info result leaderboard"
+        "info result leaderboard";
     }
   }
 
@@ -45,6 +45,12 @@
   .info_panel button:hover {
     background-color: #63e832;
     color: #fff;
+  }
+
+  .result{
+    padding: 1rem;
+    border-radius: 8px;
+    grid-area: result;
   }
 
   .leaderboard {
@@ -110,6 +116,7 @@
       <button>PLAY</button>
     </a>
   </section>
+  <section class="panel result"></section>
   <section class="panel leaderboard">
     <h1>
       <span class="material-symbols-outlined moon">trophy</span>
