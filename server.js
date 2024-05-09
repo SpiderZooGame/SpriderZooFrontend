@@ -13,37 +13,21 @@ const app = express();
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-  const protectedRoutes = ["/game", "/api/v1/users", "/settings"];
-  console.log(req.path);
-  if (!protectedRoutes.includes(req.path)) {
-    console.log("Not protected");
-    next();
-    return;
-  }
-
+const auth = (req, res, next) => {
   if (!req.headers["authorization"]) {
     res.sendStatus(401);
-  } else if (req.headers["authorization"]) {
+  } else {
     const token = req.headers["authorization"].split(" ")[1];
-
-    if (token == null) return res.sendStatus(401);
+    if (!token) return res.sendStatus(401);
 
     try {
       getTokenData(token);
-
       next();
     } catch (error) {
       res.sendStatus(401);
     }
-  } else {
-    next();
   }
-});
-
-app.use("/api/v1/users", userRoutes);
-
-app.use("/static", express.static(path.resolve(__dirname, "src", "static")));
+};
 
 app.get("/oauth/login", async (req, res) => {
   res.redirect(secrets.GITHUB_AUTHCODE_REQUEST);
@@ -67,24 +51,29 @@ app.get("/user/getToken/", async (req, res) => {
     });
 });
 
-app.get("/user/getinfo/", async (req, res) => {
+app.get("/user/getinfo/", auth, async (req, res) => {
   const token = req.headers["authorization"].split(" ")[1];
+  let tokenData;
+  try {
+    tokenData = getTokenData(token);
 
-  let tokenData = getTokenData(token);
-
-  githubValidateUser(tokenData.token)
-    .then((data) => {
+    githubValidateUser(tokenData.token).then((data) => {
       const userLogin = JSON.parse(data.toString()).login;
       res.json({ result: "Successful", data: { user: userLogin } });
-    })
-    .catch((error) => res.json({ result: "Failed", data: { status: error } }));
+    });
+  } catch (error) {
+    res.sendStatus(401);
+  }
 });
 
-app.use("/api/v1/users", userRoutes);
+app.use("/static", express.static(path.resolve(__dirname, "src", "static")));
 
-app.get("/views/:viewName", (req, res) => {
-  const viewName = req.params.viewName;
-  res.sendFile(path.resolve(__dirname, "src/static/html", `${viewName}.html`));
+app.get("/views/game", auth, (req, res) => {
+  res.sendFile(path.resolve(__dirname, "src/static/html", `Game.html`));
+});
+
+app.get("/views/dashboard", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "src/static/html", `Dashboard.html`));
 });
 
 app.get("/*", (req, res) => {
