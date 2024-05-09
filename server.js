@@ -7,6 +7,7 @@ const {
   generateSignedToken,
   githubValidateUser,
   apicall,
+  auth,
 } = require("./oauth/authorization");
 
 const app = express();
@@ -15,22 +16,6 @@ app.use(express.json());
 
 app.use("/api/v1", v1Routes);
 
-const auth = (req, res, next) => {
-  if (!req.headers["authorization"]) {
-    res.sendStatus(401);
-  } else {
-    const token = req.headers["authorization"].split(" ")[1];
-    if (!token) return res.sendStatus(401);
-
-    try {
-      getTokenData(token);
-      next();
-    } catch (error) {
-      res.sendStatus(401);
-    }
-  }
-};
-
 app.get("/oauth/login", async (req, res) => {
   res.redirect(secrets.GITHUB_AUTHCODE_REQUEST);
 });
@@ -38,19 +23,17 @@ app.get("/oauth/login", async (req, res) => {
 app.get("/user/getToken/", async (req, res) => {
   const accessTokenUrl = `https://github.com/login/oauth/access_token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${req.query.code}`;
 
-  const accessTokenResponse = apicall(accessTokenUrl, null);
-
-  accessTokenResponse
-    .then((token) => {
-      const accessToken = new URLSearchParams(token.toString()).get(
-        "access_token"
-      );
-      const signedToken = generateSignedToken({ token: accessToken });
-      res.json({ token: signedToken });
-    })
-    .catch((error) => {
-      res.sendStatus(404);
-    });
+  let accessTokenResponse;
+  try{
+  accessTokenResponse = await apicall(accessTokenUrl, null);
+  const accessToken = new URLSearchParams(accessTokenResponse.toString()).get(
+    "access_token"
+  );
+  const signedToken = generateSignedToken({ token: accessToken });
+  res.json({ token: signedToken });
+  }catch(error){
+    res.sendStatus(404);
+  }
 });
 
 app.get("/user/getinfo/", auth, async (req, res) => {
@@ -59,10 +42,10 @@ app.get("/user/getinfo/", auth, async (req, res) => {
   try {
     tokenData = getTokenData(token);
 
-    githubValidateUser(tokenData.token).then((data) => {
-      const userLogin = JSON.parse(data.toString()).login;
-      res.json({ result: "Successful", data: { user: userLogin } });
-    });
+    const userObject = await githubValidateUser(tokenData.token);
+
+    res.json({ result: "Successful", data: { user: JSON.parse(userObject.toString()).login } });
+
   } catch (error) {
     res.sendStatus(401);
   }
