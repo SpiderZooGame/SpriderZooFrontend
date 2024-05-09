@@ -7,23 +7,17 @@ const {
   githubValidateUser,
 } = require("../../../oauth/authorization");
 
-const getLeaderboard = (req, res) => {
+const getLeaderboard = async (_, res) => {
   const limit = 10;
 
-  if (limit) {
-    pool.query(
-      scoreQueries.getLeaderboardWithLimit,
-      [limit],
-      (error, result) => {
-        if (error)
-          res
-            .status(500)
-            .json({ status: 500, message: "Internal server error" });
+  const result = await pool.query(scoreQueries.getLeaderboardWithLimit, [
+    limit,
+  ]);
 
-        res.status(200).json(result.rows);
-        return;
-      }
-    );
+  if (result) {
+    res.status(200).json(result.rows);
+  } else {
+    res.status(500).json({ status: 500, message: "Internal server error" });
   }
 };
 
