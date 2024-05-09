@@ -4,10 +4,23 @@ Array.prototype.random = function () {
   return this[Math.floor(Math.random() * this.length)];
 };
 
-const INITIAL_DELAY = 500;
-const SHOW_DELAY = 1500;
-const DURATION = 60 * 1;
-const MAX_ROUNDS = 2;
+Array.prototype.shuffle = function () {
+  let currentIndex = this.length;
+  while (currentIndex != 0) {
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [this[currentIndex], this[randomIndex]] = [
+      this[randomIndex],
+      this[currentIndex],
+    ];
+  }
+};
+
+const DURATION = 20;
+const ROUNDS = 2;
+const SCORE_INCREMENT = 2;
+const INITIAL_SCORE = 10;
 
 export default class Game extends AbstractView {
   constructor(params) {
@@ -18,43 +31,72 @@ export default class Game extends AbstractView {
     this.tileToPicMapping = {};
     this.gameContainer = null;
     this.hasFlipped = false;
-    this.rounds = MAX_ROUNDS;
+    this.round = 1;
 
     this.canClick = false;
     this.evaluating = false;
-    this.score = 0;
+    this.score = INITIAL_SCORE;
     this.timer = DURATION;
     this.cleared = 0;
+    this.roundScore = 0;
 
-    this.nextRoundEvent = new CustomEvent("next-round");
     this.startTimer = new CustomEvent("start-timer");
     this.stopTimer = new CustomEvent("stop-timer");
+    this.gameOver = new CustomEvent("game-over");
 
     this.clickCount = 0;
     this.setIntervalExec = null;
 
-    this.rows = 4;
-    this.cols = 4;
+    this.rows = 2;
+    this.cols = 2;
+
+    this.colors = [
+      "#F216B7",
+      "#16CAFD",
+      "#41F24D",
+      "#D92938",
+      "#30CFF2",
+      "#A31CA6",
+      "#48D904",
+      "#591D07",
+      "#62612A",
+      "#142A22",
+      "#FF9F34",
+    ];
+  }
+
+  castToTimer(timeInSeconds) {
+    let minutes = parseInt(timeInSeconds / 60, 10);
+    let seconds = parseInt(timeInSeconds % 60, 10);
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    return minutes + ":" + seconds;
+  }
+
+  resetTimer() {
+    document.dispatchEvent(this.stopTimer);
+    document.querySelector("#timer").textContent = this.castToTimer(DURATION);
+    this.timer = DURATION;
   }
 
   startTimerCb(e) {
-    const timerElement = document.querySelector("#timer");
-    let minutes, seconds;
-
     this.setIntervalExec = setInterval(
       function () {
-        minutes = parseInt(this.timer / 60, 10);
-        seconds = parseInt(this.timer % 60, 10);
-
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        timerElement.textContent = minutes + ":" + seconds;
+        document.querySelector("#timer").textContent = this.castToTimer(
+          this.timer
+        );
 
         if (--this.timer < 0) {
+          this.round++;
+          document.dispatchEvent(this.stopTimer);
           document.dispatchEvent(
-            new CustomEvent("game-over", { detail: { result: 0 } })
+            new CustomEvent("next-round", {
+              detail: { result: false },
+            })
           );
+          return;
         }
       }.bind(this),
       1000
@@ -72,17 +114,31 @@ export default class Game extends AbstractView {
         this.selected = [];
         this.evaluating = false;
 
-        this.score += 1;
-        document.querySelector("#score").textContent = this.score;
         this.cleared += 2;
 
+        this.roundScore += SCORE_INCREMENT;
+        document.querySelector("#score").textContent =
+          this.score + this.roundScore;
+
         if (this.cleared === this.rows * this.cols) {
-          this.rounds--;
-          document.dispatchEvent(this.nextRoundEvent);
+          this.round++;
+          document.dispatchEvent(
+            new CustomEvent("next-round", {
+              detail: { result: true },
+            })
+          );
           this.evaluating = false;
         }
         return;
       }
+
+      if (this.roundScore > 0) this.roundScore--;
+      else if (this.score > 0) {
+        this.score--;
+      }
+
+      document.querySelector("#score").textContent =
+        this.score + this.roundScore;
 
       this.toggleFrontBackSelected();
 
@@ -130,36 +186,42 @@ export default class Game extends AbstractView {
     }
   }
 
-  genAssignment(pics, numOfTiles) {
-    let indices = Array.apply(null, { length: numOfTiles }).map(
+  genAssignment() {
+    let indices = Array.apply(null, { length: this.rows * this.cols }).map(
       (_, index) => index
     );
 
-    for (const pic of pics) {
+    this.colors.shuffle();
+
+    for (const color of this.colors) {
       if (indices.length > 0) {
         const firstIndex = indices.random();
-        this.tileToPicMapping[firstIndex] = pic;
+        this.tileToPicMapping[firstIndex] = color;
         indices = indices.filter((index) => index != firstIndex);
 
         const secondIndex = indices.random();
-        this.tileToPicMapping[secondIndex] = pic;
+        this.tileToPicMapping[secondIndex] = color;
         indices = indices.filter((index) => index != secondIndex);
       }
     }
   }
 
   constructTile(key, value) {
-    let tile = document.createElement("div");
-    let front = document.createElement("div");
-    let back = document.createElement("div");
-
-    let textElemWithVal = document.createElement("p");
-    textElemWithVal.textContent = value;
+    const tile = document.createElement("div");
+    const front = document.createElement("div");
+    const back = document.createElement("div");
+    const svgTemplate = document.querySelector("#svgTemplate");
+    const svg = svgTemplate.content.cloneNode(true);
+    const svgElement = svg.querySelector("svg");
 
     front.classList.add("front_face", "front");
     back.classList.add("back_face", "back");
 
-    back.append(textElemWithVal);
+    svgElement.querySelector("path").setAttribute("fill", value);
+    svgElement.querySelector("path").setAttribute("stroke", "#000000");
+    svgElement.querySelector("path").setAttribute("stroke-width", "2%");
+
+    back.append(svg);
     tile.append(front);
     tile.append(back);
 
@@ -180,12 +242,7 @@ export default class Game extends AbstractView {
 
     grid.replaceChildren();
 
-    this.genAssignment(
-      Array.apply(null, { length: this.rows * this.cols }).map(
-        (_, index) => index
-      ),
-      this.rows * this.cols
-    );
+    this.genAssignment();
 
     for (const [key, value] of Object.entries(this.tileToPicMapping)) {
       grid.appendChild(this.constructTile(key, value));
@@ -211,58 +268,71 @@ export default class Game extends AbstractView {
   }
 
   startRound(e) {
+    this.canClick = false;
     this.cleared = 0;
     this.clickCount = 0;
+    this.selected = [];
 
-    if (this.setIntervalExec) document.dispatchEvent(this.stopTimer);
+    if (e.detail) {
+      if (e.detail.result) {
+        if (this.round <= ROUNDS)
+          alert("Congrats!! We're moving you to the next round");
+      } else {
+        if (this.round <= ROUNDS) alert("Oops!! Try again in the next round");
+      }
 
-    if (this.rounds < 1) {
-      document.dispatchEvent(
-        new CustomEvent("game-over", { detail: { result: 1 } })
-      );
+      this.score += this.roundScore;
+      this.roundScore = 0;
+    }
 
+    this.resetTimer();
+
+    if (this.round > ROUNDS) {
+      document.dispatchEvent(this.gameOver);
       return;
     }
 
-    this.canClick = true;
-
-    document.querySelector("#round").textContent = `Round ${
-      MAX_ROUNDS - this.rounds + 1
-    }`;
+    document.querySelector("#round").textContent = `Round ${this.round}`;
 
     this.setupGrid();
+
+    this.canClick = true;
   }
 
   startGame() {
     document.addEventListener("game-over", (e) => {
       // send results to the backend
 
-      window.clearInterval(this.setIntervalExec);
+      document.dispatchEvent(this.stopTimer);
 
       this.canClick = false;
 
-      document.querySelectorAll(".tile").forEach((tile) => {
-        if (tile.classList.length > 1) this.toggleFrontBack(tile);
-      });
+      alert("Your score: " + this.score);
 
-      // window.location.href = "/";
+      window.location.href = "/";
       return;
     });
 
     document.addEventListener("start-timer", this.startTimerCb.bind(this));
 
-    document.addEventListener("stop-timer", () => {
-      window.clearInterval(this.setIntervalExec);
-    });
+    document.addEventListener(
+      "stop-timer",
+      function () {
+        if (this.setIntervalExec) window.clearInterval(this.setIntervalExec);
+      }.bind(this)
+    );
 
     document.addEventListener("next-round", this.startRound.bind(this));
 
-    document.dispatchEvent(this.nextRoundEvent);
+    document.dispatchEvent(
+      new CustomEvent("next-round", {
+        detail: null,
+      })
+    );
   }
 
   onMounted() {
     this.gameContainer = document.querySelector("#game_container");
-
     this.startGame();
   }
 }
