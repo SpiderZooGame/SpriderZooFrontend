@@ -30,11 +30,16 @@
       <a href="/" class="nav__link" data-link>
         <span class="material-symbols-outlined link">home</span>
       </a>
-      <a href="/oauth/login" class="nav__link dropdown">
-        <span class="material-symbols-outlined">person</span>
+      <a href="/oauth/login" id="person_icon" class="nav__link dropdown">
+        <span class="material-symbols-outlined link">person</span>
       </a>
-      <a href="#" id="logout" class="nav__link dropdown">
-        <span class="material-symbols-outlined">logout</span>
+      <a
+        href="#"
+        id="logout_icon"
+        class="nav__link dropdown"
+        style="display: none"
+      >
+        <span class="material-symbols-outlined link">logout</span>
       </a>
     </nav>
     <main id="app"></main>
