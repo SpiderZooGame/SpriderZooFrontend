@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const userRoutes = require("./src/api/routes/userRoutes");
+const v1Routes = require("./src/api/routes/v1Routes");
 const secrets = require("./globalconfigs/constants");
 const {
   getTokenData,
@@ -12,6 +12,8 @@ const {
 const app = express();
 
 app.use(express.json());
+
+app.use("/api/v1", v1Routes);
 
 const auth = (req, res, next) => {
   if (!req.headers["authorization"]) {
