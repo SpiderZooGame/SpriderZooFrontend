@@ -4,18 +4,18 @@ INSERT INTO players (player_id, username, email) VALUES
     (103, 'Charlie', 'CharlieDunn@gmail.com');
 
 INSERT INTO badges (badge_id, badge_name, badge_url) VALUES 
-    (201, 'Black Widow', '/static/img/BlackWidowBadge.png'),
-    (202, 'Brown Recluse', '/static/img/BrownRecluseBadge.png'),
-    (203, 'Cellar', '/static/img/CellarBadge.png'),
-    (204, 'WolfBadge', '/static/img/WolfBadge.png');
+    (1, 'Black Widow', '/static/img/BlackWidowBadge.png'),
+    (2, 'Brown Recluse', '/static/img/BrownRecluseBadge.png'),
+    (3, 'Cellar', '/static/img/CellarBadge.png'),
+    (4, 'WolfBadge', '/static/img/WolfBadge.png');
 
 INSERT INTO playerbadges (date_awarded, player_id, badge_id) VALUES 
-    ('2024-04-01', 101, 201),
-    ('2024-04-05', 101, 202),
-    ('2024-04-10', 103, 201),
-    ('2024-04-10', 103, 202),
-    ('2024-04-10', 103, 203),
-    ('2024-04-10', 103, 204);
+    ('2024-04-01', 101, 1),
+    ('2024-04-05', 101, 2),
+    ('2024-04-10', 103, 1),
+    ('2024-04-10', 103, 2),
+    ('2024-04-10', 103, 3),
+    ('2024-04-10', 103, 4);
 
 INSERT INTO scores (score_id, score, score_date, player_id) VALUES
     (301, 100, '2024-04-01', 101),
