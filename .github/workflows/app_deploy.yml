@@ -2,11 +2,11 @@ name: deploy-to-eb
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 permissions:
-    contents: read
-    id-token: write
+  contents: read
+  id-token: write
 
 jobs:
   deploy:
@@ -14,8 +14,8 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4      
-      
+        uses: actions/checkout@v4
+
       - name: Assume the deploy pipeline user role
         uses: aws-actions/configure-aws-credentials@v4.0.1
         with:
@@ -24,7 +24,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Copy environment config
-        run: aws s3 cp s3://virtual-spider-zoo/environment.config .ebextensions/
+        run: aws s3 cp s3://virtual-spider-zoo/.env .
 
       - name: Create ZIP deployment package
         run: zip -r node-app.zip ./
