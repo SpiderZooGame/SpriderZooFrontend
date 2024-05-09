@@ -8,7 +8,7 @@ const {
 } = require("../../../oauth/authorization");
 
 const getLeaderboard = async (_, res) => {
-  const limit = "poi";
+  const limit = 10;
 
   const result = await pool.query(scoreQueries.getLeaderboardWithLimit, [
     limit,
