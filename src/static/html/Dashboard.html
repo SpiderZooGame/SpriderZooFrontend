@@ -85,6 +85,25 @@
 
   .badge-panel {
     grid-area: badge;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .badge-item {
+    height: 3em;
+    width: 3em;
+  }
+
+  .badge-panel h2 {
+    width: 100%;
+    height: fit-content;
+  }
+
+  .badge-panel p {
+    color: rgba(255, 255, 255, 0.41);
   }
 </style>
 
@@ -115,30 +134,11 @@
       <span class="material-symbols-outlined moon">trophy</span>
       Leaderboard
     </h1>
-    <ol start="1">
-      <li>
-        Jerry Wood
-        <small>301</small>
-      </li>
-      <li>
-        Jerry Wood
-        <small>301</small>
-      </li>
-      <li>
-        Jerry Wood
-        <small>292</small>
-      </li>
-      <li>
-        Trevor McCormick
-        <small>245</small>
-      </li>
-      <li>
-        Andrew Fox
-        <small>203</small>
-      </li>
-    </ol>
+    <ol id="leaderboard-list" start="1"></ol>
+    <div class="loader" id="leaderboard-spinner"></div>
   </section>
-  <section class="panel badge-panel red">
+  <section id="badge-list" class="panel badge-panel red">
     <h2>Badges</h2>
+    <div class="loader" id="badge-spinner"></div>
   </section>
 </section>
