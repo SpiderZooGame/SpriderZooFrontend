@@ -3,6 +3,14 @@
     --perspective: 62.5rem;
   }
 
+  .hidden {
+    visibility: hidden;
+  }
+
+  .none {
+    display: none;
+  }
+
   .game_header {
     display: flex;
     justify-content: space-between;
@@ -26,35 +34,36 @@
     place-content: center;
   }
 
+  .tile > * {
+    grid-area: 1 / 1;
+  }
+
   .tile {
     place-self: stretch;
     aspect-ratio: 1;
     color: #ffffff;
     display: grid;
     grid-template: "container";
+    transform-style: preserve-3d;
+
+    &.front-to-back {
+      animation: rotate 1s linear both;
+    }
+
+    &.back-to-front {
+      animation: rotate-inverse 1s linear both;
+    }
+
+    cursor: pointer;
   }
 
-  .tile > * {
-    grid-area: 1 / 1;
-  }
-
-  .hidden {
-    visibility: hidden;
-  }
-
-  .tile .front {
-    backface-visibility: hidden;
-    transform: perspective(var(--perspective)) rotateY(0deg);
-    transition: 1s;
+  .tile .front_face {
     background: #eb4d4b;
     width: 100%;
     height: 100%;
   }
 
-  .tile .back {
-    backface-visibility: hidden;
-    transform: perspective(var(--perspective)) rotateY(-180deg);
-    transition: 1s;
+  .tile .back_face {
     background: #32de84;
     width: 100%;
     height: 100%;
@@ -63,17 +72,44 @@
     align-items: center;
   }
 
-  .tile:hover .front {
-    transform: perspective(var(--perspective)) rotateY(180deg);
+  .tile .front {
+    backface-visibility: hidden;
+    transform: perspective(var(--perspective)) rotateY(0deg);
   }
 
-  .tile:hover .back {
-    transform: perspective(var(--perspective)) rotateY(0deg);
+  .tile .back {
+    backface-visibility: hidden;
+    transform: perspective(var(--perspective)) rotateY(-180deg);
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: perspective(var(--perspective)) rotateY(0);
+    }
+    70% {
+      transform: perspective(var(--perspective)) rotateY(200deg);
+    }
+    100% {
+      transform: perspective(var(--perspective)) rotateY(180deg);
+    }
+  }
+
+  @keyframes rotate-inverse {
+    0% {
+      transform: perspective(var(--perspective)) rotateY(180deg);
+    }
+    70% {
+      transform: perspective(var(--perspective)) rotateY(-20deg);
+    }
+    100% {
+      transform: perspective(var(--perspective)) rotateY(0);
+    }
   }
 </style>
 
 <section class="game_header">
   <span id="round">Round 1</span>
+  <span id="timer">01:00</span>
   <span id="score">0</span>
 </section>
 
