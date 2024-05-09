@@ -1,7 +1,6 @@
 import Dashboard from "./views/Dashboard.js";
 import Game from "./views/Game.js";
-import Settings from "./views/Settings.js";
-import Login from "./views/Login.js";
+import Error from "./views/Error.js";
 import authService from "./services/auth.js";
 
 const auth = new authService();
@@ -29,10 +28,9 @@ const navigateTo = (url) => {
 
 const router = async () => {
   const routes = [
+    { path: "/error", view: Error },
     { path: "/", view: Dashboard },
     { path: "/game", view: Game },
-    { path: "/settings", view: Settings },
-    { path: "/login", view: Login },
   ];
 
   // Test each route for potential match
@@ -53,8 +51,6 @@ const router = async () => {
       result: [location.pathname],
     };
   }
-
-  // auth.checkAuthentication();
 
   const view = new match.route.view(getParams(match));
 
