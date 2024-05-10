@@ -47,8 +47,8 @@ export default class Game extends AbstractView {
     this.clickCount = 0;
     this.setIntervalExec = null;
 
-    this.rows = 4;
-    this.cols = 4;
+    this.rows = 2;
+    this.cols = 2;
 
     this.colors = [
       "#F44336",

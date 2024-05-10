@@ -13,7 +13,6 @@ export default class AuthService {
         if (sessiontoken) {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
-          localStorage.removeItem("usedauthcode");
           this.userLoggedOut();
           window.location.href = "/";
         }
@@ -24,16 +23,11 @@ export default class AuthService {
 
     const code = params.get("code");
 
-    let usedauthcode = localStorage.getItem("usedauthcode");
-
-    if (code && !usedauthcode) {
-      localStorage.setItem("usedauthcode", code);
-
+    if (code) {
       fetch("/user/getToken/?code=" + code)
         .then((res) => res.json())
         .then((res) => {
           localStorage.setItem("token", res.token);
-
           fetch("/user/getinfo/", {
             headers: {
               Authorization: "Bearer " + res.token,
@@ -44,7 +38,13 @@ export default class AuthService {
               this.userLoggedIn();
               localStorage.setItem("user", res.data.user);
               localStorage.setItem("email", res.data.email);
+            })
+            .catch((error) => {
+              console.error("Error fetching getinfo:", error);
             });
+        })
+        .catch((error) => {
+          console.error("Error fetching user info:", error);
         });
     }
 
