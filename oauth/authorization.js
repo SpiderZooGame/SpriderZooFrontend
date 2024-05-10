@@ -39,6 +39,16 @@ const githubValidateUser = (tokenstring) => {
   return userInfoResponse;
 };
 
+const getUserEmail = (token) => {
+  const getEmail = "https://api.github.com/user/emails";
+
+  const userEmail = apicall(getEmail, {
+    Authorization: "Bearer " + tokenstring,
+  });
+
+  return userEmail;
+};
+
 const auth = async (req, res, next) => {
   if (!req.headers["authorization"]) {
     res.sendStatus(401);
@@ -71,6 +81,7 @@ module.exports = {
   getTokenData,
   generateSignedToken,
   githubValidateUser,
+  getUserEmail,
   apicall,
   auth,
 };
