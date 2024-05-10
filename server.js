@@ -55,7 +55,7 @@ app.get("/user/getinfo/", auth, async (req, res) => {
 
 app.use("/static", express.static(path.resolve(__dirname, "src", "static")));
 
-app.get("/views/game", (req, res) => {
+app.get("/views/game", auth, (req, res) => {
   res.sendFile(path.resolve(__dirname, "src/static/html", `Game.html`));
 });
 
