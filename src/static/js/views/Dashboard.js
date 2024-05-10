@@ -19,7 +19,6 @@ export default class extends AbstractView {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      
       });
       if (response.status === 401) {
         let p = document.createElement("p");

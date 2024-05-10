@@ -3,7 +3,7 @@
     display: grid;
     min-height: 100%;
     grid-template-rows: 1fr 1fr 1fr;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 1em;
     grid-template-areas:
       "result result result"
@@ -51,7 +51,7 @@
   .result_panel {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: stretch;
     align-items: center;
     padding: 1rem;
     border-radius: 8px;
@@ -59,7 +59,6 @@
   }
 
   .leaderboard {
-    padding: 1rem;
     border-radius: 8px;
     grid-area: leaderboard;
     display: flex;
@@ -74,14 +73,14 @@
 
   .leaderboard li {
     overflow: hidden;
-    padding: 1em;
-    font-weight: 700;
+    padding: 1.5vw;
+    font-weight: 500;
     background: rgba(255, 255, 255, 0.1);
     &&::before {
       content: counter(leaderboard);
       counter-increment: leaderboard;
       margin-right: 1em;
-      font-weight: 700;
+      font-weight: 500;
     }
   }
 
@@ -104,8 +103,13 @@
   }
 
   .badge-item {
-    height: 3em;
-    width: 3em;
+    height: 5em;
+    width: 5em;
+  }
+
+  .badge-item:hover {
+    transform: scale(1.1);
+    
   }
 
   .badge-panel h2 {
@@ -146,8 +150,8 @@
     </h1>
     <b>A BBD, spider inspired, memory enhanceing, reactive web game..</b>
     <svg
-      height="50%"
-      width="50%"
+      height="30vw"
+      width="30vh"
       version="1.1"
       id="_x32_"
       xmlns="http://www.w3.org/2000/svg"
