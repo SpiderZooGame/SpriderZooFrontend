@@ -43,9 +43,21 @@ export default class AuthService {
             .then((res) => {
               this.userLoggedIn();
               localStorage.setItem("user", res.data.user);
+              localStorage.setItem("email", res.data.email);
             });
         });
     }
+
+    fetch("/api/v1/players", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: localStorage.getItem("user"),
+        email: "meeeee@rt.com",
+      }),
+    });
   }
 
   userLoggedIn() {
