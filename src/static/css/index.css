@@ -276,3 +276,14 @@ body.dark a {
   min-width: 3em;
   min-height: 3em;
 }
+
+.panel.info_panel p{
+  font-size: 1rem;
+}
+
+.panel.info_panel li {
+  background: none;
+}
+
+
+

@@ -1,16 +1,16 @@
 const { Router } = require("express");
-const playerController = require("../controller/playerController");
-const scoreController = require("../controller/scoreController");
-const badgeController = require("../controller/badgeController");
+const playerHandler = require("../handlers/playerHandler");
+const scoreHandler = require("../handlers/scoreHandler");
+const badgeHandler = require("../handlers/badgeHandler");
 const { auth } = require("../../../oauth/authorization");
 
 const router = Router();
 
-router.post("/players", playerController.addPlayer);
+router.post("/players", playerHandler.addPlayer);
 
-router.get("/scores/leaderboard", scoreController.getLeaderboard);
-router.post("/scores", auth, scoreController.addScore);
+router.get("/scores/leaderboard", scoreHandler.getLeaderboard);
+router.post("/scores", auth, scoreHandler.addScore);
 
-router.get("/badges/playerbadges", auth, badgeController.getPlayerBadges);
+router.get("/badges/playerbadges", auth, badgeHandler.getPlayerBadges);
 
 module.exports = router;
