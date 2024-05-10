@@ -17,7 +17,7 @@ const addPlayer = async (req, res) => {
       }
     });
   } else {
-    res.status(409).json({ status: 409, message: "Player already exists" });
+    res.status(200).json({ status: 200, message: "Player already exists" });
   }
 };
 
