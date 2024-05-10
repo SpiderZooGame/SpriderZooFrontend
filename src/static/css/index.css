@@ -276,3 +276,17 @@ body.dark a {
   min-width: 3em;
   min-height: 3em;
 }
+
+.panel.info_panel p ul{
+  letter-spacing: -.01em;
+  line-height: 100%;
+  margin: 0;
+  width: 100%;
+}
+
+.panel.info_panel li {
+  background: none;
+}
+
+
+
