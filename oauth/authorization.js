@@ -39,10 +39,6 @@ const githubValidateUser = (tokenstring) => {
   return userInfoResponse;
 };
 
-const getUserEmail = () => {
-  return "dummy@gmail.com";
-};
-
 const auth = async (req, res, next) => {
   if (!req.headers["authorization"]) {
     res.sendStatus(401);
@@ -75,7 +71,6 @@ module.exports = {
   getTokenData,
   generateSignedToken,
   githubValidateUser,
-  getUserEmail,
   apicall,
   auth,
 };
