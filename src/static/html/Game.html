@@ -45,6 +45,30 @@
     place-content: center;
   }
 
+  @container (width > 470px) {
+    .game_grid {
+      display: grid;
+      width: 50%;
+      height: 50%;
+      grid-template-columns: repeat(var(--grid-cols), 1fr);
+      grid-template-rows: repeat(var(--grid-rows), 1fr);
+      gap: 1cqw;
+      place-content: center;
+    }
+  }
+
+  @container (width > 830px) {
+    .game_grid {
+      display: grid;
+      width: 35%;
+      height: 35%;
+      grid-template-columns: repeat(var(--grid-cols), 1fr);
+      grid-template-rows: repeat(var(--grid-rows), 1fr);
+      gap: 1cqw;
+      place-content: center;
+    }
+  }
+
   .tile > * {
     grid-area: 1 / 1;
   }
