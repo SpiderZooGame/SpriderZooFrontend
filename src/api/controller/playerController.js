@@ -4,7 +4,7 @@ const queries = require("../queries/playerQueries");
 const addPlayer = async (req, res) => {
   const { username, email } = req.body;
 
-  const player = await pool.query(queries.getPlayer, [username, email]);
+  const player = await pool.query(queries.getPlayer, [username]);
 
   if (player.rowCount === 0) {
     pool.query(queries.addPlayer, [username, email], (error, result) => {
