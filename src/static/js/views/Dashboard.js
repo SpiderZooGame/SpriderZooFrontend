@@ -23,7 +23,7 @@ export default class extends AbstractView {
       if (response.status === 401) {
         let p = document.createElement("p");
         p.innerText =
-          "Ohhh no! You need to be logged in to view your badges! Please log in and try again.";
+          "Ohhh no! You need to be logged in to view your spiders! Please log in and try again.";
         badges.appendChild(p);
         spinner.classList.add("none");
         return;
@@ -31,7 +31,7 @@ export default class extends AbstractView {
       if (!response.ok) {
         let p = document.createElement("p");
         p.innerText =
-          "Ohhh no! Something went wrong while fetching your badges! Please try again later.";
+          "Ohhh no! Something went wrong while fetching your spiders! Please try again later.";
         badges.appendChild(p);
         spinner.classList.add("none");
         return;
@@ -40,7 +40,7 @@ export default class extends AbstractView {
       if (data.length === 0) {
         let p = document.createElement("p");
         p.innerText =
-          "Ohhh no! You don't have any badges yet! Perhaps you should play the game to earn some!";
+          "Ohhh no! You don't have any spiders yet! Perhaps you should play the game to earn some!";
         badges.appendChild(p);
       }
       spinner.classList.add("none");

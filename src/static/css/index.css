@@ -32,6 +32,10 @@ a {
   text-decoration: none;
 }
 
+ol {
+  padding: 0;
+}
+
 /* GLOBAL STYLES */
 
 @keyframes pulsate {
@@ -277,13 +281,10 @@ body.dark a {
   min-height: 3em;
 }
 
-.panel.info_panel p{
+.panel.info_panel p {
   font-size: 1rem;
 }
 
 .panel.info_panel li {
   background: none;
 }
-
-
-
