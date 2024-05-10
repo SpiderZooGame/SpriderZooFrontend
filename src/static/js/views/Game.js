@@ -51,15 +51,14 @@ export default class Game extends AbstractView {
     this.cols = 2;
 
     this.colors = [
-      "#F216B7",
-      "#16CAFD",
-      "#41F24D",
-      "#D92938",
-      "#30CFF2",
-      "#A31CA6",
-      "#591D07",
-      "#62612A",
-      "#142A22",
+      "#F44336",
+      "#E91E63",
+      "#9C27B0",
+      "#673AB7",
+      "#3F51B5",
+      "#E8920C",
+      "#03A9F4",
+      "#00BCD4",
     ];
   }
 
