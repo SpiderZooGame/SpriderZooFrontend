@@ -44,13 +44,13 @@ app.get("/user/getinfo/", auth, async (req, res) => {
     tokenData = getTokenData(token);
 
     const userObject = await githubValidateUser(tokenData.token);
-    const userEmail = await getUserEmail(tokenData.token);
+    const userEmail = getUserEmail();
 
     res.json({
       result: "Successful",
       data: {
         user: JSON.parse(userObject.toString()).login,
-        email: userEmail[0].email,
+        email: userEmail,
       },
     });
   } catch (error) {

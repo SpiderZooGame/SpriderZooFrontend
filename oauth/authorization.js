@@ -39,14 +39,8 @@ const githubValidateUser = (tokenstring) => {
   return userInfoResponse;
 };
 
-const getUserEmail = (token) => {
-  const getEmail = "https://api.github.com/user/emails";
-
-  const userEmail = apicall(getEmail, {
-    Authorization: "Bearer " + tokenstring,
-  });
-
-  return userEmail;
+const getUserEmail = () => {
+  return "dummy@gmail.com";
 };
 
 const auth = async (req, res, next) => {
