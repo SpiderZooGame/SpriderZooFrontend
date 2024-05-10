@@ -7,8 +7,13 @@ export default class extends AbstractView {
   }
 
   async onMounted() {
-    this.populateLeaderboard();
-    this.populateBadges();
+    // this.populateLeaderboard();
+    // this.populateBadges();
+    this.populateResult();
+  }
+
+  async populateResult() {
+    
   }
 
   async populateBadges() {
