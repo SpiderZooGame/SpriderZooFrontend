@@ -17,10 +17,10 @@ Array.prototype.shuffle = function () {
   }
 };
 
-const DURATION = 20;
+const DURATION = 60;
 const ROUNDS = 2;
-const SCORE_INCREMENT = 2;
-const INITIAL_SCORE = 10;
+const SCORE_INCREMENT = 50;
+const INITIAL_SCORE = 100;
 
 export default class Game extends AbstractView {
   constructor(params) {
@@ -47,8 +47,8 @@ export default class Game extends AbstractView {
     this.clickCount = 0;
     this.setIntervalExec = null;
 
-    this.rows = 2;
-    this.cols = 2;
+    this.rows = 4;
+    this.cols = 4;
 
     this.colors = [
       "#F216B7",
@@ -57,11 +57,9 @@ export default class Game extends AbstractView {
       "#D92938",
       "#30CFF2",
       "#A31CA6",
-      "#48D904",
       "#591D07",
       "#62612A",
       "#142A22",
-      "#FF9F34",
     ];
   }
 
@@ -132,9 +130,9 @@ export default class Game extends AbstractView {
         return;
       }
 
-      if (this.roundScore > 0) this.roundScore--;
-      else if (this.score > 0) {
-        this.score--;
+      if (this.roundScore >= 50) this.roundScore -= 50;
+      else if (this.score >= 50) {
+        this.score -= 50;
       }
 
       document.querySelector("#score").textContent =
@@ -274,13 +272,6 @@ export default class Game extends AbstractView {
     this.selected = [];
 
     if (e.detail) {
-      if (e.detail.result) {
-        if (this.round <= ROUNDS)
-          alert("Congrats!! We're moving you to the next round");
-      } else {
-        if (this.round <= ROUNDS) alert("Oops!! Try again in the next round");
-      }
-
       this.score += this.roundScore;
       this.roundScore = 0;
     }
@@ -299,6 +290,32 @@ export default class Game extends AbstractView {
     this.canClick = true;
   }
 
+  displayResults() {
+    const resultsElement = document.createElement("div");
+    const header = document.createElement("span");
+    const scoreSection = document.createElement("h3");
+    const messsageSection = document.createElement("span");
+    messsageSection.style.setProperty("font-style", "italic");
+
+    header.textContent = "Your score";
+    scoreSection.textContent = this.score;
+    messsageSection.textContent = "We will now redirect you to the homepage";
+
+    header.classList.add("scale");
+    scoreSection.classList.add("scale");
+    messsageSection.classList.add("scale");
+
+    resultsElement.append(header, scoreSection, messsageSection);
+
+    resultsElement.classList.add("flex");
+
+    document.querySelector("#round").classList.add("none");
+    document.querySelector("#timer").classList.add("none");
+    document.querySelector("#score").classList.add("none");
+
+    this.gameContainer.replaceChildren(resultsElement);
+  }
+
   startGame() {
     document.addEventListener("game-over", (e) => {
       const token = localStorage.getItem("token");
@@ -307,6 +324,7 @@ export default class Game extends AbstractView {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           score: this.score,
@@ -317,9 +335,12 @@ export default class Game extends AbstractView {
 
       this.canClick = false;
 
-      alert("Your score: " + this.score);
+      this.displayResults();
 
-      window.location.href = "/";
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 5000);
+
       return;
     });
 

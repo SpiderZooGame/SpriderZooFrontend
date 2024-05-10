@@ -24,14 +24,14 @@ app.get("/user/getToken/", async (req, res) => {
   const accessTokenUrl = `https://github.com/login/oauth/access_token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${req.query.code}`;
 
   let accessTokenResponse;
-  try{
-  accessTokenResponse = await apicall(accessTokenUrl, null);
-  const accessToken = new URLSearchParams(accessTokenResponse.toString()).get(
-    "access_token"
-  );
-  const signedToken = generateSignedToken({ token: accessToken });
-  res.json({ token: signedToken });
-  }catch(error){
+  try {
+    accessTokenResponse = await apicall(accessTokenUrl, null);
+    const accessToken = new URLSearchParams(accessTokenResponse.toString()).get(
+      "access_token"
+    );
+    const signedToken = generateSignedToken({ token: accessToken });
+    res.json({ token: signedToken });
+  } catch (error) {
     res.sendStatus(404);
   }
 });
@@ -44,8 +44,10 @@ app.get("/user/getinfo/", auth, async (req, res) => {
 
     const userObject = await githubValidateUser(tokenData.token);
 
-    res.json({ result: "Successful", data: { user: JSON.parse(userObject.toString()).login } });
-
+    res.json({
+      result: "Successful",
+      data: { user: JSON.parse(userObject.toString()).login },
+    });
   } catch (error) {
     res.sendStatus(401);
   }
@@ -53,7 +55,7 @@ app.get("/user/getinfo/", auth, async (req, res) => {
 
 app.use("/static", express.static(path.resolve(__dirname, "src", "static")));
 
-app.get("/views/game", auth, (req, res) => {
+app.get("/views/game", (req, res) => {
   res.sendFile(path.resolve(__dirname, "src/static/html", `Game.html`));
 });
 
