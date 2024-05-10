@@ -43,6 +43,7 @@ export default class AuthService {
             .then((res) => {
               this.userLoggedIn();
               localStorage.setItem("user", res.data.user);
+              localStorage.setItem("email", res.data.email);
             });
         });
     }

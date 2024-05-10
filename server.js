@@ -6,6 +6,7 @@ const {
   getTokenData,
   generateSignedToken,
   githubValidateUser,
+  getUserEmail,
   apicall,
   auth,
 } = require("./oauth/authorization");
@@ -43,10 +44,14 @@ app.get("/user/getinfo/", auth, async (req, res) => {
     tokenData = getTokenData(token);
 
     const userObject = await githubValidateUser(tokenData.token);
+    const userEmail = await getUserEmail(tokenData.token);
 
     res.json({
       result: "Successful",
-      data: { user: JSON.parse(userObject.toString()).login },
+      data: {
+        user: JSON.parse(userObject.toString()).login,
+        email: userEmail[0].email,
+      },
     });
   } catch (error) {
     res.sendStatus(401);
