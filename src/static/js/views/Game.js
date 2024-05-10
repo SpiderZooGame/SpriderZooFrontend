@@ -58,7 +58,7 @@ export default class Game extends AbstractView {
       "#3F51B5",
       "#E8920C",
       "#03A9F4",
-      "#00BCD4",
+      "#7fff00",
     ];
   }
 
