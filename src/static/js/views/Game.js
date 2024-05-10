@@ -189,7 +189,6 @@ export default class Game extends AbstractView {
     );
 
     this.colors.shuffle();
-    console.log(this.colors);
 
     for (const color of this.colors) {
       if (indices.length > 0) {
@@ -202,8 +201,6 @@ export default class Game extends AbstractView {
         indices = indices.filter((index) => index != secondIndex);
       }
     }
-
-    console.log(this.tileToPicMapping);
   }
 
   constructTile(key, value) {
